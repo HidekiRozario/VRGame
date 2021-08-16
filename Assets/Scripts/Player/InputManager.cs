@@ -51,56 +51,59 @@ public class InputManager : MonoBehaviour
     {
         OnEnable();
 
-        //PRIMARYBUTTON
-        InputFeatureUsage<bool> primaryBtnUsage = CommonUsages.primaryButton;
+        if(deviceRight.isValid || deviceLeft.isValid)
+        {
+            //PRIMARYBUTTON
+            InputFeatureUsage<bool> primaryBtnUsage = CommonUsages.primaryButton;
 
-        if(deviceLeft.TryGetFeatureValue(primaryBtnUsage, out primaryButtonLeft) && primaryButtonLeft){
+            if(deviceLeft.TryGetFeatureValue(primaryBtnUsage, out primaryButtonLeft) && primaryButtonLeft){
 
-        }
-        if(deviceRight.TryGetFeatureValue(primaryBtnUsage, out primaryButtonRight) && primaryButtonRight){
+            }
+            if(deviceRight.TryGetFeatureValue(primaryBtnUsage, out primaryButtonRight) && primaryButtonRight){
 
-        }
+            }
 
-        //SECONDARYBUTTON
+            //SECONDARYBUTTON
 
-        InputFeatureUsage<bool> secondaryBtnUsage = CommonUsages.secondaryButton;
+            InputFeatureUsage<bool> secondaryBtnUsage = CommonUsages.secondaryButton;
 
-        if(deviceLeft.TryGetFeatureValue(secondaryBtnUsage, out secondaryButtonLeft) && secondaryButtonLeft){
+            if(deviceLeft.TryGetFeatureValue(secondaryBtnUsage, out secondaryButtonLeft) && secondaryButtonLeft){
 
-        }
-        if(deviceRight.TryGetFeatureValue(secondaryBtnUsage, out secondaryButtonRight) && secondaryButtonRight){
+            }
+            if(deviceRight.TryGetFeatureValue(secondaryBtnUsage, out secondaryButtonRight) && secondaryButtonRight){
 
-        }
+            }
 
-        //JOYSTICKPRESS
+            //JOYSTICKPRESS
 
-        InputFeatureUsage<bool> joystickPressUsage = CommonUsages.primary2DAxisClick;
+            InputFeatureUsage<bool> joystickPressUsage = CommonUsages.primary2DAxisClick;
 
-        if(deviceLeft.TryGetFeatureValue(joystickPressUsage, out joystickClickLeft) && joystickClickLeft){
+            if(deviceLeft.TryGetFeatureValue(joystickPressUsage, out joystickClickLeft) && joystickClickLeft){
 
-        }
-        if(deviceRight.TryGetFeatureValue(joystickPressUsage, out joystickClickRight) && joystickClickRight){
+            }
+            if(deviceRight.TryGetFeatureValue(joystickPressUsage, out joystickClickRight) && joystickClickRight){
 
-        }
+            }
 
-        //SELECTBUTTON
-        InputFeatureUsage<bool> selectUsage = CommonUsages.gripButton;
+            //SELECTBUTTON
+            InputFeatureUsage<bool> selectUsage = CommonUsages.gripButton;
 
-        if(deviceLeft.TryGetFeatureValue(selectUsage, out selectButtonLeft) && selectButtonLeft){
+            if(deviceLeft.TryGetFeatureValue(selectUsage, out selectButtonLeft) && selectButtonLeft){
 
-        }
-        if(deviceRight.TryGetFeatureValue(selectUsage, out selectButtonRight) && selectButtonRight){
+            }
+            if(deviceRight.TryGetFeatureValue(selectUsage, out selectButtonRight) && selectButtonRight){
 
-        }
+            }
 
-        //TRIGGERCLICK
-        InputFeatureUsage<bool> triggerUsage = CommonUsages.triggerButton;
+            //TRIGGERCLICK
+            InputFeatureUsage<bool> triggerUsage = CommonUsages.triggerButton;
 
-        if(deviceLeft.TryGetFeatureValue(triggerUsage, out triggerClickLeft) && triggerClickLeft){
+            if(deviceLeft.TryGetFeatureValue(triggerUsage, out triggerClickLeft) && triggerClickLeft){
 
-        }
-        if(deviceRight.TryGetFeatureValue(triggerUsage, out triggerClickRight) && triggerClickRight){
+            }
+            if(deviceRight.TryGetFeatureValue(triggerUsage, out triggerClickRight) && triggerClickRight){
 
+            }
         }
     }
 }

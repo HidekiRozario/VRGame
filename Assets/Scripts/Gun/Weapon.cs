@@ -8,6 +8,7 @@ public class Weapon : XRGrabInteractable
     //SHOOTING
     private int handType;
 
+
     public bool bulletInChamber = false;
     public float damage;
 
@@ -29,7 +30,7 @@ public class Weapon : XRGrabInteractable
 
     void Start()
     {
-        inputManager = GameObject.Find("InputManager").GetComponent<InputManager>();
+        inputManager = GameObject.Find("XR Rig").GetComponent<InputManager>();
     }
 
     public void DetachMag(){
@@ -54,15 +55,18 @@ public class Weapon : XRGrabInteractable
             weaponAnim.Play(weaponFireAnim, 0, 0.0f);
             weaponMuzzle.OnGunShot();
 
-            if(Physics.Raycast(rayPoint.position, rayPoint.right, out hit)){
+            int layerMask = 1 << 17;
+            layerMask = ~layerMask;
+
+            if(Physics.Raycast(rayPoint.position, rayPoint.forward, out hit, float.PositiveInfinity, layerMask)){
                 Instantiate(weaponHit, hit.point, Quaternion.identity);
 
-                if(hit.collider.tag == "HitLayer")
+                if(hit.collider.tag == "Target")
                 {
                 hit.collider.SendMessageUpwards("HitBy", damage);
                 }
 
-                if(hit.collider.tag == "Enemy")
+                if(hit.collider.tag == "HitLayer")
                 {
                 hit.collider.SendMessage("HitBy", damage);
                 }

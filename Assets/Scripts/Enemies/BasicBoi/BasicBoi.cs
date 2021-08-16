@@ -50,27 +50,36 @@ public class BasicBoi : MonoBehaviour
     }
 
     void Update(){
-        if(!seenPlayer){
-            seenPlayer = fov.canSeePlayer;
-        }
-
-        if(seenPlayer && !isDead){
-            Move();
-        }
-
         if(player == null){
             player = GameObject.FindGameObjectWithTag("Player");
         }
 
-        if(shootTime > 0){
-            shootTime -= Time.deltaTime;
-            canAttack = false;
-        } else {
-            canAttack = true;
+        
+
+        if(player.GetComponent<PlayerController>().spawnProtect){
+            Idle();
+        } 
+        else
+        {
+            if(seenPlayer && !isDead){
+                Move();
+            }
+
+            if(fov.canSeePlayer && !isDead){
+                if(shootTime > 0){
+                    shootTime -= Time.deltaTime;
+                    canAttack = false;
+                } 
+                else 
+                {
+                    canAttack = true;
+                }
+                ShootPlayer();
+            }
         }
 
-        if(fov.canSeePlayer && !isDead){
-            ShootPlayer();
+        if(!seenPlayer){
+            seenPlayer = fov.canSeePlayer;
         }
     }
 
@@ -89,23 +98,38 @@ public class BasicBoi : MonoBehaviour
     void Move(){
         float destFromPlayer = Vector3.Distance(fov.player.transform.position, transform.position);
 
-        if(destFromPlayer > followingRange){
-            seenPlayer = false;
-            anim.Play("Idle");
-        }
+        if(destFromPlayer > followingRange || !seenPlayer){
+            agent.isStopped = true;
+            Idle();
+        } else agent.isStopped = false;
 
-        if((destFromPlayer > closeToPlayerOffset && !isDead) || (!fov.canSeePlayer && !isDead)){
-            agent.SetDestination(player.transform.position);
-            anim.Play("Walk");
+        if((((destFromPlayer > closeToPlayerOffset) && seenPlayer) || ((!fov.canSeePlayer && destFromPlayer > closeToPlayerOffset) && seenPlayer))){
+            Follow();
             shootTime = shootCooldown * Random.Range(0.75f, 1.25f);
         }
-        else
+
+        else if(seenPlayer && destFromPlayer <= closeToPlayerOffset)
         {
-            agent.SetDestination(transform.position);
-            anim.Play("Shoot");
+            Shoot();
         }
 
 
+    }
+
+    void Idle(){
+        agent.SetDestination(transform.position);
+        seenPlayer = false;
+        anim.Play("Idle");
+    }
+
+    void Follow(){
+        agent.SetDestination(player.transform.position);
+        anim.Play("Walk");
+    }
+
+    void Shoot(){
+        agent.SetDestination(transform.position);
+        anim.Play("Shoot");
     }
 
     public void Hit(float damage){
